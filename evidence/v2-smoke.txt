@@ -1,0 +1,10 @@
+vitaliy@MacBook ~ curl -fsSi --max-time 4 -H 'Content-Type: application/json' -d '{"group_code":"SE-42","submission_key":"stage-v2-2511"}' http://127.0.0.1:8191/submissions
+HTTP/1.1 201 CREATED
+Server: gunicorn
+Date: Wed, 25 Nov 2026 11:52:41 GMT
+Connection: close
+Content-Type: application/json
+Content-Length: 36
+X-Request-Id: 80d4034a3bf74c02a16b5af5f646d168
+
+{"id":2,"receipt":"receipt-000002"}

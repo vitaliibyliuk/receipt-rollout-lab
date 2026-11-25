@@ -1,0 +1,25 @@
+{
+  "phase": "canary",
+  "slo_percent": 99,
+  "sli_percent": 90.0,
+  "sli_numerator": 180,
+  "attempts": 200,
+  "p95_limit_ms": 200,
+  "versions": {
+    "v1": {
+      "attempts": 180,
+      "http_5xx": 0,
+      "no_response": 0,
+      "error_percent": 0.0,
+      "p95_ms": 10.586916
+    },
+    "v2": {
+      "attempts": 20,
+      "http_5xx": 20,
+      "no_response": 0,
+      "error_percent": 100.0,
+      "p95_ms": 9.025833
+    }
+  },
+  "expand_allowed": false
+}

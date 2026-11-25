@@ -5,6 +5,4 @@ __pycache__/
 *.sqlite*
 local-artifacts/
 results/
-
 local-artifacts
-results/

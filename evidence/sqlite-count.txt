@@ -1,0 +1,3 @@
+vitaliy@MacBook ~ docker compose -p receipt-work exec -T v1 python -c "import sqlite3; db=sqlite3.connect('/data/submissions.sqlite'); row=db.execute('SELECT count(*), min(id) FROM submissions WHERE submission_key=?',('trial-2511-canary-040',)).fetchone(); print('Rows for key:',row[0],'/ submission:',row[1]); print('Total submissions:',db.execute('SELECT count(*) FROM submissions').fetchone()[0])"
+Rows for key: 1 / submission: 240
+Total submissions: 600

@@ -1,0 +1,10 @@
+vitaliy@MacBook ~ curl -fsSi --max-time 4 -H 'Content-Type: application/json' -d '{"group_code":"SE-42","submission_key":"trial-2511-canary-040"}' http://127.0.0.1:8181/submissions
+HTTP/1.1 200 OK
+Server: gunicorn
+Date: Wed, 25 Nov 2026 11:53:13 GMT
+Connection: close
+Content-Type: application/json
+Content-Length: 11
+X-Request-Id: b6ff609c17534f2e995513fe7cc2ea6c
+
+{"id":240}

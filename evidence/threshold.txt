@@ -1,0 +1,2 @@
+vitaliy@MacBook ~ python -c 'from scripts.traffic import P95_LIMIT,SLO; print(f"p95 limit={P95_LIMIT} ms, max errors=5%, minimum v2=20, SLO={SLO}%")'
+p95 limit=200 ms, max errors=5%, minimum v2=20, SLO=99%

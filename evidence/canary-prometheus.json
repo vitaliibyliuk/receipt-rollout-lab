@@ -1,0 +1,28 @@
+{
+  "status": "success",
+  "data": {
+    "resultType": "vector",
+    "result": [
+      {
+        "metric": {
+          "status": "201",
+          "version": "v1"
+        },
+        "value": [
+          1795607585.723,
+          "380"
+        ]
+      },
+      {
+        "metric": {
+          "status": "503",
+          "version": "v2"
+        },
+        "value": [
+          1795607585.723,
+          "20"
+        ]
+      }
+    ]
+  }
+}

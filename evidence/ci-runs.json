@@ -1,0 +1,39 @@
+{
+  "v1": {
+    "url": "https://github.com/vitaliibyliuk/receipt-rollout-lab/actions/runs/45606024470",
+    "conclusion": "success",
+    "headBranch": "v1.0.1",
+    "headSha": "1cb56384673d731ef9103b0955442a4d8a06caea",
+    "steps": {
+      "Check API behavior": "success",
+      "Package verified image": "success",
+      "Upload checked archive": "success"
+    },
+    "image_id": "sha256:5a9bb9f55ebb483449f6fc0e0444c0f3d313ecbd29d7999182d26584d8a5355d",
+    "archive_sha256": "ae293aa49496fe670a8148661d22d60e1d8bc45a807799bd097bdd20b1570e34"
+  },
+  "v2": {
+    "url": "https://github.com/vitaliibyliuk/receipt-rollout-lab/actions/runs/45606024300",
+    "conclusion": "success",
+    "headBranch": "v2.0.1",
+    "headSha": "6df0858b919597b4a389505f315b36e699b2529c",
+    "steps": {
+      "Check API behavior": "success",
+      "Package verified image": "success",
+      "Upload checked archive": "success"
+    },
+    "image_id": "sha256:46c4d1e9c31715166cdec51423c4a75757cc43e2d9a5186424053c54f6327209",
+    "archive_sha256": "653e8e210d46af368da1f6ff9cf0f71eda4d0e761d1cb4b18f34b18626c2f03c"
+  },
+  "failure": {
+    "url": "https://github.com/vitaliibyliuk/receipt-rollout-lab/actions/runs/45605957327",
+    "conclusion": "failure",
+    "headBranch": "experiment/failing-health-check",
+    "headSha": "b96ab73913a580164b330e3c9ee020f30a984d99",
+    "steps": {
+      "Check API behavior": "failure",
+      "Package verified image": "skipped",
+      "Upload checked archive": "skipped"
+    }
+  }
+}

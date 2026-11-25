@@ -1,0 +1,5 @@
+vitaliy@MacBook ~ python lab.py summarize results/submissions.jsonl
+VERSION  STATUS  COUNT
+v1       200     1
+v1       201     580
+v2       503     20

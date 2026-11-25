@@ -1,0 +1,3 @@
+vitaliy@MacBook ~ python lab.py summarize results/absent.jsonl; rc=$?; printf 'exit=%s\n' "$rc"; test "$rc" -eq 2
+Log file does not exist: results/absent.jsonl
+exit=2

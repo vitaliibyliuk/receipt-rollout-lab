@@ -1,0 +1,24 @@
+{
+  "phase": "rollback",
+  "slo_percent": 99,
+  "sli_percent": 100.0,
+  "sli_numerator": 200,
+  "attempts": 200,
+  "p95_limit_ms": 200,
+  "versions": {
+    "v1": {
+      "attempts": 200,
+      "http_5xx": 0,
+      "no_response": 0,
+      "error_percent": 0.0,
+      "p95_ms": 11.690625
+    },
+    "v2": {
+      "attempts": 0,
+      "http_5xx": 0,
+      "no_response": 0,
+      "error_percent": null,
+      "p95_ms": null
+    }
+  }
+}
