@@ -50,5 +50,5 @@ def test_lookup_and_idempotent_retry(db_path):
 
 def test_health_endpoint(db_path):
     response = create_app().test_client().get("/health")
-    assert response.status_code == 200
+    assert response.status_code == 204
     assert response.json["status"] == "ok"
