@@ -1,6 +1,8 @@
-VERSION = "v1"
+VERSION = "v2"
 
 
 def confirm(submission_id, interrupted):
-    """The initial release acknowledges a committed record directly."""
-    return None
+    """Return a simulated receipt for a committed submission."""
+    if interrupted:
+        raise TimeoutError("Simulated confirmation timeout")
+    return f"receipt-{submission_id:06d}"
