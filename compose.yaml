@@ -1,0 +1,43 @@
+x-application: &application
+  healthcheck:
+    test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=1).close()"]
+    interval: 1s
+    timeout: 2s
+    retries: 12
+services:
+  stage:
+    <<: *application
+    profiles: [staging]
+    image: "${STAGING_IMAGE:-receipt-lab:v1.0.0}"
+    environment:
+      SUBMIT_DB: /data/submissions.sqlite
+      FAIL_CONFIRMATION: '0'
+    ports: ["127.0.0.1:8191:8000"]
+    volumes: ["stage-data:/data"]
+  v1:
+    <<: *application
+    profiles: [working]
+    image: receipt-lab:v1.0.0
+    environment:
+      SUBMIT_DB: /data/submissions.sqlite
+      FAIL_CONFIRMATION: '0'
+    ports: ["127.0.0.1:8181:8000"]
+    volumes: ["working-data:/data"]
+  v2:
+    <<: *application
+    profiles: [working]
+    image: receipt-lab:v2.0.0
+    environment:
+      SUBMIT_DB: /data/submissions.sqlite
+      FAIL_CONFIRMATION: "${LAB_CANARY_FAIL:-0}"
+    ports: ["127.0.0.1:8182:8000"]
+    volumes: ["working-data:/data"]
+  prometheus:
+    profiles: [working]
+    image: prom/prometheus:v3.5.0@sha256:63805ebb8d2b3920190daf1cb14a60871b16fd38bed42b857a3182bc621f4996
+    ports: ["127.0.0.1:9190:9090"]
+    volumes:
+      - "./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro"
+volumes:
+  stage-data:
+  working-data:

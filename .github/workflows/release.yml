@@ -1,0 +1,58 @@
+name: Receipt release verification
+on:
+  push:
+    tags: ['v*']
+    branches: ['experiment/failing-health-check']
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  release:
+    name: Validate and package the release
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Install pinned dependencies
+        run: python -m pip install -r requirements-test.txt
+      - name: Check API behavior
+        run: |
+          mkdir -p ci-results
+          python lab.py test --timeout 45 --junit ci-results/pytest.xml 2>&1 | tee ci-results/pytest.log
+      - name: Package verified image
+        run: |
+          release="$GITHUB_REF_NAME"
+          if [[ "$GITHUB_REF_TYPE" != tag ]]; then release=branch-check; fi
+          mkdir -p image-artifact
+          printf '%s\n' "$release" > image-artifact/release.txt
+          docker build --label "org.opencontainers.image.revision=$GITHUB_SHA" \
+            --label "org.opencontainers.image.version=$release" -t "receipt-lab:$release" .
+          docker image inspect --format '{{.Id}}' "receipt-lab:$release" | tee image-artifact/image-id.txt
+          docker save "receipt-lab:$release" | gzip -1 > image-artifact/image.tar.gz
+          (cd image-artifact && sha256sum image.tar.gz) | tee image-artifact/image.sha256
+      - name: Upload checked archive
+        if: success() && github.ref_type == 'tag'
+        uses: actions/upload-artifact@v6
+        with:
+          name: image-${{ github.ref_name }}
+          path: image-artifact/
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 0
+      - name: Keep test diagnostics
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: pytest-results
+          path: ci-results/
+          if-no-files-found: warn
