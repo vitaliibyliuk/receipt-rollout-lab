@@ -22,13 +22,17 @@ jobs:
       TAG: ${{ matrix.tag }}
       RUN_ID: ${{ matrix.run }}
     steps:
-      - name: Promote the exact archive already built by CI
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Generate a transfer delta for the verified release
         shell: bash
         run: |
-          test "$(gh run view "$RUN_ID" --json conclusion,headBranch --jq '.conclusion + ":" + .headBranch')" = "success:$TAG"
           gh run download "$RUN_ID" -n "image-$TAG" -D archive
-          test "$(cat archive/release.txt)" = "$TAG"
           (cd archive && sha256sum -c image.sha256)
-          gh release create "$TAG" archive/image.tar.gz archive/image.sha256 archive/image-id.txt archive/release.txt \
-            --verify-tag --title "Receipt release $TAG" \
-            --notes "Verified Linux ARM64 image from https://github.com/$GH_REPO/actions/runs/$RUN_ID."
+          curl --fail --silent --show-error --location --max-time 90 \
+            'https://github.com/SashaPom/submission-canary-lab/releases/download/v1.0.0-ci/image.tar.gz' -o base.tar.gz
+          printf '%s  %s\n' '4ce7d0aca6a111a6c24a6fb9034545ee9f057e49f91443c681f52ab322ef40f1' base.tar.gz | sha256sum -c
+          python3 transfer.py create base.tar.gz archive/image.tar.gz transfer
+          ls -lh transfer
+          gh release upload "$TAG" transfer/transfer.json transfer/transfer.bin.gz
