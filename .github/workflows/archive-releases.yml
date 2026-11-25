@@ -1,0 +1,34 @@
+name: Preserve verified image archives
+on:
+  push:
+    branches: [delivery/archive-releases]
+
+permissions:
+  actions: read
+  contents: write
+
+jobs:
+  archive:
+    strategy:
+      matrix:
+        include:
+          - { tag: v1.0.1, run: 45606024470 }
+          - { tag: v2.0.1, run: 45606024300 }
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      TAG: ${{ matrix.tag }}
+      RUN_ID: ${{ matrix.run }}
+    steps:
+      - name: Promote the exact archive already built by CI
+        shell: bash
+        run: |
+          test "$(gh run view "$RUN_ID" --json conclusion,headBranch --jq '.conclusion + ":" + .headBranch')" = "success:$TAG"
+          gh run download "$RUN_ID" -n "image-$TAG" -D archive
+          test "$(cat archive/release.txt)" = "$TAG"
+          (cd archive && sha256sum -c image.sha256)
+          gh release create "$TAG" archive/image.tar.gz archive/image.sha256 archive/image-id.txt archive/release.txt \
+            --verify-tag --title "Receipt release $TAG" \
+            --notes "Verified Linux ARM64 image from https://github.com/$GH_REPO/actions/runs/$RUN_ID."
