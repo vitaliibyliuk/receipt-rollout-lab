@@ -8,7 +8,7 @@ services:
   stage:
     <<: *application
     profiles: [staging]
-    image: "${STAGING_IMAGE:-receipt-lab:v1.0.0}"
+    image: "${STAGING_IMAGE:-receipt-lab:v1.0.1}"
     environment:
       SUBMIT_DB: /data/submissions.sqlite
       FAIL_CONFIRMATION: '0'
@@ -17,7 +17,7 @@ services:
   v1:
     <<: *application
     profiles: [working]
-    image: receipt-lab:v1.0.0
+    image: receipt-lab:v1.0.1
     environment:
       SUBMIT_DB: /data/submissions.sqlite
       FAIL_CONFIRMATION: '0'
@@ -26,7 +26,7 @@ services:
   v2:
     <<: *application
     profiles: [working]
-    image: receipt-lab:v2.0.0
+    image: receipt-lab:v2.0.1
     environment:
       SUBMIT_DB: /data/submissions.sqlite
       FAIL_CONFIRMATION: "${LAB_CANARY_FAIL:-0}"
